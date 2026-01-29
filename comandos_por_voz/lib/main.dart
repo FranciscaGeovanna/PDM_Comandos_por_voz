@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await _recorder.startRecorder(
       toFile: 'audio_temp.pcm',
       codec: Codec.pcm16,
-      sampleRate: 16000,
+      sampleRate: 44100,
       numChannels: 1,
     );
     setState(() {
@@ -86,105 +86,105 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-Widget build(BuildContext context) {
-  final colorScheme = Theme.of(context).colorScheme;
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
-  return Scaffold(
-    appBar: AppBar(
-      backgroundColor: colorScheme.primary,
-      title: const Text(
-        'Classificação de Áudios',
-        style: TextStyle(color: Colors.white),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: colorScheme.primary,
+        title: const Text(
+          'Classificação de Áudios',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
       ),
-      centerTitle: true,
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Ícone do microfone
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            width: _isRecording ? 120 : 90,
-            height: _isRecording ? 120 : 90,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: _isRecording
-                  ? Colors.redAccent
-                  : colorScheme.primary,
-            ),
-            child: const Icon(
-              Icons.mic,
-              size: 50,
-              color: Colors.white,
-            ),
-          ),
-
-          const SizedBox(height: 30),
-
-          // Card do resultado
-          Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Text(
-                    _isRecording ? "Ouvindo..." : "Resultado",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    resultadoClassificacao,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Ícone do microfone
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: _isRecording ? 120 : 90,
+              height: _isRecording ? 120 : 90,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _isRecording
+                    ? Colors.redAccent
+                    : colorScheme.primary,
+              ),
+              child: const Icon(
+                Icons.mic,
+                size: 50,
+                color: Colors.white,
               ),
             ),
-          ),
 
-          const SizedBox(height: 40),
+            const SizedBox(height: 30),
 
-          // Botão principal
-          SizedBox(
-            width: double.infinity,
-            height: 55,
-            child: FilledButton.icon(
-              style: FilledButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+            // Card do resultado
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Text(
+                      _isRecording ? "Ouvindo..." : "Resultado",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      resultadoClassificacao,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
-              onPressed: () async {
-                if (_isRecording) {
-                  await stopRecording();
-                } else {
-                  await startRecording();
-                }
-              },
-              icon: Icon(_isRecording ? Icons.stop : Icons.play_arrow),
-              label: Text(
-                _isRecording ? stop : start,
-                style: const TextStyle(fontSize: 18),
+            ),
+
+            const SizedBox(height: 40),
+
+            // Botão principal
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: FilledButton.icon(
+                style: FilledButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                onPressed: () async {
+                  if (_isRecording) {
+                    await stopRecording();
+                  } else {
+                    await startRecording();
+                  }
+                },
+                icon: Icon(_isRecording ? Icons.stop : Icons.play_arrow),
+                label: Text(
+                  _isRecording ? stop : start,
+                  style: const TextStyle(fontSize: 18),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   @override
   void dispose() {
